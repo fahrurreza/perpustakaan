@@ -14,68 +14,50 @@ class ApiUserController extends Controller
 {
     public function index(Request $request)
     {
-        try {
-                $query = UserModel::where($request->column, 'LIKE', '%' . $request->keyword . '%')
-                                    ->where('id', '!=', 1)
-                                    ->paginate(
-                                        $perPage = $request->perPage, $columns = ['*'], 'page', $request->pageSelect
-                                    );
-                $user = UserResource::collection($query);
+        $query = UserModel::where($request->column, 'LIKE', '%' . $request->keyword . '%')
+                            ->where('id', '!=', 1)
+                            ->paginate(
+                                $perPage = $request->perPage, $columns = ['*'], 'page', $request->pageSelect
+                            );
+        $user = UserResource::collection($query);
 
-                return $user;
-        }catch(Exception $e){
-            return response()->json($this->generate_response(
-                array(
-                    "message" => $e->getMessage(),
-                    "status_code" => $e->getCode()
-                )
-            ));
-        }
+        return $user;
     }
 
     public function store (Request $request)
     {
-        try {
             
-            $data_insert = [
-                'slack'             => Str::random(15),
-                'nama_lengkap'      => $request->namauser,
-                'username'          => $request->username,
-                'email'             => $request->email,
-                'password'          => Hash::make('12345678'),
-                'status'            => $request->status,
-                'user_id'           => 1,
-                'role_id'           => $request->role_id,
-                'created_at'        => now(),
-            ];
+        $data_insert = [
+            'slack'             => Str::random(15),
+            'nama_lengkap'      => $request->namauser,
+            'username'          => $request->username,
+            'email'             => $request->email,
+            'password'          => Hash::make('12345678'),
+            'status'            => $request->status,
+            'user_id'           => 1,
+            'role_id'           => $request->role_id,
+            'created_at'        => now(),
+        ];
 
-            $insert = UserModel::create($data_insert);
+        $insert = UserModel::create($data_insert);
 
-            if($insert)
-            {
-                $query = UserModel::where('username', 'LIKE', '%' . $request->keyword . '%')
-                                    ->where('id', '!=', 1)
-                                    ->paginate(
-                                        $perPage = 10, $columns = ['*'], 'page', 1
-                                    );
-                $user = UserResource::collection($query);
+        if($insert)
+        {
+            $query = UserModel::where('username', 'LIKE', '%' . $request->keyword . '%')
+                                ->where('id', '!=', 1)
+                                ->paginate(
+                                    $perPage = 10, $columns = ['*'], 'page', 1
+                                );
+            $user = UserResource::collection($query);
 
-                return $user;
-            } 
-            else 
-            {
-                return response([
-                    "message" => "failed insert data",
-                    "status_code" => 500
-                 ], 500);
-            }
-        }catch(Exception $e){
-            return response()->json($this->generate_response(
-                array(
-                    "message" => $e->getMessage(),
-                    "status_code" => $e->getCode()
-                )
-            ));
+            return $user;
+        } 
+        else 
+        {
+            return response([
+                "message" => "failed insert data",
+                "status_code" => 500
+                ], 500);
         }
     }
 

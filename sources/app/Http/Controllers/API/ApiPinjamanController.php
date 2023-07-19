@@ -64,35 +64,24 @@ class ApiPinjamanController extends Controller
 
     public function delete(Request $request)
     {
-        try 
+        
+        $result=PinjamanModel::where('id',$request->id)->delete();
+        if($request)
         {
-            $result=PinjamanModel::where('id',$request->id)->delete();
-            if($request)
-            {
-                $data = StudentModel::with('pinjaman')
-                                ->where($request->column, 'LIKE', '%' . $request->keyword . '%')
-                                ->paginate(
-                                    $perPage = $request->perPage, $columns = ['*'], 'page', $request->pageSelect
-                                );
+            $data = StudentModel::with('pinjaman')
+                            ->where($request->column, 'LIKE', '%' . $request->keyword . '%')
+                            ->paginate(
+                                $perPage = $request->perPage, $columns = ['*'], 'page', $request->pageSelect
+                            );
 
-                return StudentResource::collection($data);
-            }
-            else
-            {
-                return response([
-                    "message" => "failed insert data",
-                    "status_code" => 500
-                 ], 500);
-            }
+            return StudentResource::collection($data);
         }
-        catch(Exception $e)
+        else
         {
-            return response()->json($this->generate_response(
-                array(
-                    "message" => $e->getMessage(),
-                    "status_code" => $e->getCode()
-                )
-            ));
+            return response([
+                "message" => "failed insert data",
+                "status_code" => 500
+                ], 500);
         }
     }
 }

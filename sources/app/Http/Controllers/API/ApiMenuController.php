@@ -11,81 +11,65 @@ class ApiMenuController extends Controller
 {
     public function index(Request $request)
     {
-        try {
-                $query = MenuModel::where($request->column, 'LIKE', '%' . $request->keyword . '%')
-                                    ->paginate(
-                                        $perPage = $request->perPage, $columns = ['*'], 'page', $request->pageSelect
-                                    );
-                $menus = MenuResource::collection($query);
+        
+        $query = MenuModel::where($request->column, 'LIKE', '%' . $request->keyword . '%')
+                            ->paginate(
+                                $perPage = $request->perPage, $columns = ['*'], 'page', $request->pageSelect
+                            );
+        $menus = MenuResource::collection($query);
 
-                return $menus;
-        }catch(Exception $e){
-            return response()->json($this->generate_response(
-                array(
-                    "message" => $e->getMessage(),
-                    "status_code" => $e->getCode()
-                )
-            ));
-        }
+        return $menus;
     }
 
     public function store (Request $request)
     {
-        try {
-            if($request->type == 'MAIN_MENU')
-            {
-                $code_key = 'MM';
-            }
-            elseif($request->type == 'SUB_MENU')
-            {
-                $code_key = 'SM';
-            }
-            else {
-                $code_key = 'A';
-            }
+       
+        if($request->type == 'MAIN_MENU')
+        {
+            $code_key = 'MM';
+        }
+        elseif($request->type == 'SUB_MENU')
+        {
+            $code_key = 'SM';
+        }
+        else {
+            $code_key = 'A';
+        }
 
-            $str = $request->label;
-            $capital = strtoupper($str);
-            $menu_key = str_replace(" ", "_", $capital);
+        $str = $request->label;
+        $capital = strtoupper($str);
+        $menu_key = str_replace(" ", "_", $capital);
 
-            $data_insert = [
-                'parent_id'     => $request->parent_id,
-                'type'          => $request->type,
-                'menu_key'      => $menu_key,
-                'label'         => $request->label,
-                'route'         => $request->link,
-                'icon'          => $request->icon,
-                'short_order'   => $request->short_order,
-                'status'        => $request->status,
-                'created_at'    => now(),
-            ];
+        $data_insert = [
+            'parent_id'     => $request->parent_id,
+            'type'          => $request->type,
+            'menu_key'      => $menu_key,
+            'label'         => $request->label,
+            'route'         => $request->link,
+            'icon'          => $request->icon,
+            'short_order'   => $request->short_order,
+            'status'        => $request->status,
+            'created_at'    => now(),
+        ];
 
-            $insert = MenuModel::create($data_insert);
+        $insert = MenuModel::create($data_insert);
 
-            if($insert)
-            {
-                $query = MenuModel::where('label', 'LIKE', '%' . $request->keyword . '%')
-                                    ->paginate(
-                                        $perPage = 10, $columns = ['*'], 'page', 1
-                                    );
-                $menus = MenuResource::collection($query);
+        if($insert)
+        {
+            $query = MenuModel::where('label', 'LIKE', '%' . $request->keyword . '%')
+                                ->paginate(
+                                    $perPage = 10, $columns = ['*'], 'page', 1
+                                );
+            $menus = MenuResource::collection($query);
 
-                return $menus;
-            } 
-            else 
-            {
-                return response([
-                    "message" => "failed insert data",
-                    "status_code" => 500
-                 ], 500);
-            }
-        }catch(Exception $e){
-            return response()->json($this->generate_response(
-                array(
-                    "message" => $e->getMessage(),
-                    "status_code" => $e->getCode()
-                )
-            ));
+            return $menus;
+        } 
+        else 
+        {
+            return response([
+                "message" => "failed insert data",
+                "status_code" => 500
+                ], 500);
         }
     }
 
@@ -149,35 +133,24 @@ class ApiMenuController extends Controller
 
     public function delete(Request $request)
     {
-        try 
+        
+        $result=MenuModel::destroy($request->id);
+        if($request)
         {
-            $result=MenuModel::destroy($request->id);
-            if($request)
-            {
-                $query = MenuModel::where($request->column, 'LIKE', '%' . $request->keyword . '%')
-                                    ->paginate(
-                                        $perPage = $request->perPage, $columns = ['*'], 'page', $request->pageSelect
-                                    );
-                $menus = MenuResource::collection($query);
+            $query = MenuModel::where($request->column, 'LIKE', '%' . $request->keyword . '%')
+                                ->paginate(
+                                    $perPage = $request->perPage, $columns = ['*'], 'page', $request->pageSelect
+                                );
+            $menus = MenuResource::collection($query);
 
-                return $menus;
-            }
-            else
-            {
-                return response([
-                    "message" => "failed insert data",
-                    "status_code" => 500
-                 ], 500);
-            }
+            return $menus;
         }
-        catch(Exception $e)
+        else
         {
-            return response()->json($this->generate_response(
-                array(
-                    "message" => $e->getMessage(),
-                    "status_code" => $e->getCode()
-                )
-            ));
+            return response([
+                "message" => "failed insert data",
+                "status_code" => 500
+                ], 500);
         }
     }
 }

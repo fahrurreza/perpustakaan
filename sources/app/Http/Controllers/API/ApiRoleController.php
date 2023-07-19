@@ -13,22 +13,14 @@ class ApiRoleController extends Controller
 {
     public function index(Request $request)
     {
-        try {
-                $query = RoleModel::where($request->column, 'LIKE', '%' . $request->keyword . '%')
-                                    ->paginate(
-                                        $perPage = $request->perPage, $columns = ['*'], 'page', $request->pageSelect
-                                    );
-                $category = RoleResource::collection($query);
+        
+        $query = RoleModel::where($request->column, 'LIKE', '%' . $request->keyword . '%')
+                            ->paginate(
+                                $perPage = $request->perPage, $columns = ['*'], 'page', $request->pageSelect
+                            );
+        $category = RoleResource::collection($query);
 
-                return $category;
-        }catch(Exception $e){
-            return response()->json($this->generate_response(
-                array(
-                    "message" => $e->getMessage(),
-                    "status_code" => $e->getCode()
-                )
-            ));
-        }
+        return $category;
     }
 
     public function access (Request $request)
@@ -56,39 +48,29 @@ class ApiRoleController extends Controller
 
     public function store (Request $request)
     {
-        try {
-            
-            $data_insert = [
-                'slack'     => Str::random(15),
-                'role'      => $request->role,
-            ];
+        $data_insert = [
+            'slack'     => Str::random(15),
+            'role'      => $request->role,
+        ];
 
-            $insert = RoleModel::create($data_insert);
+        $insert = RoleModel::create($data_insert);
 
-            if($insert)
-            {
-                $query = RoleModel::where('role', 'LIKE', '%' . $request->keyword . '%')
-                                    ->paginate(
-                                        $perPage = 10, $columns = ['*'], 'page', 1
-                                    );
-                $category = RoleResource::collection($query);
+        if($insert)
+        {
+            $query = RoleModel::where('role', 'LIKE', '%' . $request->keyword . '%')
+                                ->paginate(
+                                    $perPage = 10, $columns = ['*'], 'page', 1
+                                );
+            $category = RoleResource::collection($query);
 
-                return $category;
-            } 
-            else 
-            {
-                return response([
-                    "message" => "failed insert data",
-                    "status_code" => 500
-                 ], 500);
-            }
-        }catch(Exception $e){
-            return response()->json($this->generate_response(
-                array(
-                    "message" => $e->getMessage(),
-                    "status_code" => $e->getCode()
-                )
-            ));
+            return $category;
+        } 
+        else 
+        {
+            return response([
+                "message" => "failed insert data",
+                "status_code" => 500
+                ], 500);
         }
     }
 
@@ -128,35 +110,23 @@ class ApiRoleController extends Controller
 
     public function delete(Request $request)
     {
-        try 
+        $result=RoleModel::where('id',$request->id)->delete();
+        if($request)
         {
-            $result=RoleModel::where('id',$request->id)->delete();
-            if($request)
-            {
-                $query = RoleModel::where($request->column, 'LIKE', '%' . $request->keyword . '%')
-                                    ->paginate(
-                                        $perPage = $request->perPage, $columns = ['*'], 'page', $request->pageSelect
-                                    );
-                $category = RoleResource::collection($query);
+            $query = RoleModel::where($request->column, 'LIKE', '%' . $request->keyword . '%')
+                                ->paginate(
+                                    $perPage = $request->perPage, $columns = ['*'], 'page', $request->pageSelect
+                                );
+            $category = RoleResource::collection($query);
 
-                return $category;
-            }
-            else
-            {
-                return response([
-                    "message" => "failed insert data",
-                    "status_code" => 500
-                 ], 500);
-            }
+            return $category;
         }
-        catch(Exception $e)
+        else
         {
-            return response()->json($this->generate_response(
-                array(
-                    "message" => $e->getMessage(),
-                    "status_code" => $e->getCode()
-                )
-            ));
+            return response([
+                "message" => "failed insert data",
+                "status_code" => 500
+                ], 500);
         }
     }
 }

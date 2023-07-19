@@ -13,23 +13,15 @@ class ApiBookController extends Controller
 {
     public function index(Request $request)
     {
-        try {
-                $query = BookModel::with(['stock', 'rak', 'category'])
-                                    ->where($request->column, 'LIKE', '%' . $request->keyword . '%')
-                                    ->paginate(
-                                        $perPage = $request->perPage, $columns = ['*'], 'page', $request->pageSelect
-                                    );
-                $category = BookResource::collection($query);
+        
+        $query = BookModel::with(['stock', 'rak', 'category'])
+                            ->where($request->column, 'LIKE', '%' . $request->keyword . '%')
+                            ->paginate(
+                                $perPage = $request->perPage, $columns = ['*'], 'page', $request->pageSelect
+                            );
+        $category = BookResource::collection($query);
 
-                return $category;
-        }catch(Exception $e){
-            return response()->json($this->generate_response(
-                array(
-                    "message" => $e->getMessage(),
-                    "status_code" => $e->getCode()
-                )
-            ));
-        }
+        return $category;
     }
 
     public function store (Request $request)
@@ -139,35 +131,23 @@ class ApiBookController extends Controller
 
     public function delete(Request $request)
     {
-        try 
+        $result=BookModel::where('id',$request->id)->delete();
+        if($request)
         {
-            $result=BookModel::where('id',$request->id)->delete();
-            if($request)
-            {
-                $query = BookModel::where($request->column, 'LIKE', '%' . $request->keyword . '%')
-                                    ->paginate(
-                                        $perPage = $request->perPage, $columns = ['*'], 'page', $request->pageSelect
-                                    );
-                $category = BookResource::collection($query);
+            $query = BookModel::where($request->column, 'LIKE', '%' . $request->keyword . '%')
+                                ->paginate(
+                                    $perPage = $request->perPage, $columns = ['*'], 'page', $request->pageSelect
+                                );
+            $category = BookResource::collection($query);
 
-                return $category;
-            }
-            else
-            {
-                return response([
-                    "message" => "failed insert data",
-                    "status_code" => 500
-                 ], 500);
-            }
+            return $category;
         }
-        catch(Exception $e)
+        else
         {
-            return response()->json($this->generate_response(
-                array(
-                    "message" => $e->getMessage(),
-                    "status_code" => $e->getCode()
-                )
-            ));
+            return response([
+                "message" => "failed insert data",
+                "status_code" => 500
+                ], 500);
         }
     }
 }
