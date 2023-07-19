@@ -11,22 +11,13 @@ class ApiStockController extends Controller
 {
     public function index(Request $request)
     {
-        try {
-                $query = StockModel::where($request->column, 'LIKE', '%' . $request->keyword . '%')
-                                    ->paginate(
-                                        $perPage = $request->perPage, $columns = ['*'], 'page', $request->pageSelect
-                                    );
-                $stock = StockResource::collection($query);
+        $query = StockModel::where($request->column, 'LIKE', '%' . $request->keyword . '%')
+                            ->paginate(
+                                $perPage = $request->perPage, $columns = ['*'], 'page', $request->pageSelect
+                            );
+        $stock = StockResource::collection($query);
 
-                return $stock;
-        }catch(Exception $e){
-            return response()->json($this->generate_response(
-                array(
-                    "message" => $e->getMessage(),
-                    "status_code" => $e->getCode()
-                )
-            ));
-        }
+        return $stock;
     }
 
     public function update(Request $request)
@@ -58,35 +49,24 @@ class ApiStockController extends Controller
 
     public function delete(Request $request)
     {
-        try 
+       
+        $result=StockModel::where('id',$request->id)->delete();
+        if($request)
         {
-            $result=StockModel::where('id',$request->id)->delete();
-            if($request)
-            {
-                $query = StockModel::where($request->column, 'LIKE', '%' . $request->keyword . '%')
-                                    ->paginate(
-                                        $perPage = $request->perPage, $columns = ['*'], 'page', $request->pageSelect
-                                    );
-                $stock = StockResource::collection($query);
+            $query = StockModel::where($request->column, 'LIKE', '%' . $request->keyword . '%')
+                                ->paginate(
+                                    $perPage = $request->perPage, $columns = ['*'], 'page', $request->pageSelect
+                                );
+            $stock = StockResource::collection($query);
 
-                return $stock;
-            }
-            else
-            {
-                return response([
-                    "message" => "failed insert data",
-                    "status_code" => 500
-                 ], 500);
-            }
+            return $stock;
         }
-        catch(Exception $e)
+        else
         {
-            return response()->json($this->generate_response(
-                array(
-                    "message" => $e->getMessage(),
-                    "status_code" => $e->getCode()
-                )
-            ));
+            return response([
+                "message" => "failed insert data",
+                "status_code" => 500
+                ], 500);
         }
     }
 }
