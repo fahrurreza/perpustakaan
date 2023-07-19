@@ -48,9 +48,10 @@ class PinjamanController extends Controller
 
         for($x=1;$x<=count($request->book_id);$x++){
             $data_insert[]= [
-                'book_id'    => $request->book_id[$x-1],
-                'student_id'    => $request->student_id,
-                'jumlah'        => 1,
+                'book_id'           => $request->book_id[$x-1],
+                'book_number'       => $request->no_buku,
+                'student_id'        => $request->student_id,
+                'jumlah'            => 1,
                 'tanggal_dipinjam'  => now(),
                 'batas_dipinjam'    => $request->batas_pinjam,
                 'tanggal_kembali'   => null,

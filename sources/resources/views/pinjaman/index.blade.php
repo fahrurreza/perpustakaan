@@ -66,6 +66,13 @@
                 <span v-if="error.book_id" class="help-block">@{{ error.book_id }}</span>
               </div>
             </div>
+            <div class="form-group" v-bind:class="{ 'has-error': hasError.no_buku }">
+              <label for="categoryname" class="col-sm-3 control-label">No Buku</label>
+              <div class="col-sm-7">
+              <input type="text" class="form-control" name="no_buku">
+              <span v-if="error.no_buku" class="help-block">@{{ error.no_buku }}</span>
+              </div>
+            </div>
             <div class="form-group" v-bind:class="{ 'has-error': hasError.batas_pinjam }">
               <label for="categoryname" class="col-sm-3 control-label">Tanggal Kembali</label>
               <div class="col-sm-7">
@@ -123,10 +130,13 @@
               <table id="datatable" class="table table-bordered table-striped">
                 <thead>
                   <tr role="row" class="bg-gray">
-                    <th class="text-center">Id</th>
+                    <th class="text-center">No.</th>
                     <th>Siswa</th>
+                    <th>No Buku</th>
                     <th>Buku</th>
                     <th>Batas Tanggal</th>
+                    <th>Tanggal Pinjam</th>
+                    <th>Tanggal Dikembalikan</th>
                     <th class="text-center">Action</th>
                   </tr>
                   <tr class="bg-info">
@@ -138,9 +148,14 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="item in items">
-                    <td class="text-center" v-if="item.pinjaman.length > 0">@{{item.id}}</td>
+                  <tr v-for="item, index in items">
+                    <td class="text-center" >@{{index + 1}}</td>
                     <td v-if="item.pinjaman.length > 0">@{{item.nama_siswa}}</td>
+                    <td v-if="item.pinjaman.length > 0">
+                      <ul v-for="pinjam in item.pinjaman">
+                        <li><button class="btn btn-light btn-sm">@{{pinjam.book_number}}</button></li>
+                      </ul>
+                    </td>
                     <td v-if="item.pinjaman.length > 0">
                       <ul v-for="pinjam in item.pinjaman">
                         <li><button class="btn btn-light btn-sm">@{{pinjam.book.book_name}}</button></li>
@@ -149,6 +164,16 @@
                     <td v-if="item.pinjaman.length > 0">
                       <ul v-for="pinjam in item.pinjaman">
                         <li><button class="btn btn-light btn-sm">@{{pinjam.batas_dipinjam}}</button></li>
+                      </ul>
+                    </td>
+                    <td v-if="item.pinjaman.length > 0">
+                      <ul v-for="pinjam in item.pinjaman">
+                        <li><button class="btn btn-light btn-sm">@{{pinjam.tanggal_dipinjam}}</button></li>
+                      </ul>
+                    </td>
+                    <td v-if="item.pinjaman.length > 0">
+                      <ul v-for="pinjam in item.pinjaman">
+                        <li><button class="btn btn-light btn-sm">@{{pinjam.tanggal_kembali}}</button></li>
                       </ul>
                     </td>
                     <td class="text-center" v-if="item.pinjaman.length > 0">
@@ -163,10 +188,13 @@
                 </tbody>
                 <tfoot>
                   <tr role="row" class="bg-gray">
-                    <th class="text-center">Id</th>
+                    <th class="text-center">No.</th>
                     <th>Siswa</th>
+                    <th>No Buku</th>
                     <th>Buku</th>
                     <th>Batas Tanggal</th>
+                    <th>Tanggal Pinjam</th>
+                    <th>Tanggal Dikembalikan</th>
                     <th class="text-center">Action</th>
                   </tr>
                 </tfoot>
