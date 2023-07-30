@@ -6,6 +6,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use \App\Http\Resources\StudentResource;
 use App\Models\Student as StudentModel;
+use App\Models\User as UserModel;
+use DB;
+use Str;
+use Hash;
+use Auth;
 
 class ApiStudentController extends Controller
 {
@@ -23,22 +28,40 @@ class ApiStudentController extends Controller
 
     public function store (Request $request)
     {
-        $data_insert = [
-            'user_id'           => 1,
-            'nama_siswa'        => $request->nama_siswa,
-            'nis'               => $request->nis,
-            'alamat'            => $request->alamat,
-            'tempat_lahir'      => $request->tempat_lahir,
-            'tanggal_lahir'     => $request->tanggal_lahir,
-            'tahun_angkatan'    => $request->tahun_angkatan,
-            'status'            => $request->status,
-            'created_at'        => now(),
-        ];
+        DB::beginTransaction();
 
-        $insert = StudentModel::create($data_insert);
+        try {
 
-        if($insert)
-        {
+            $id = DB::table('users')->insertGetId([
+                'slack'             => Str::random(15),
+                'nama_lengkap'      => $request->nama_siswa,
+                'username'          => $request->nama_siswa,
+                'email'             => $request->email,
+                'password'          => Hash::make('12345678'),
+                'status'            => $request->status,
+                'user_id'           => 1,
+                'role_id'           => 4,
+                'created_at'        => now(),
+                'updated_at'        => now(),
+            ]);
+
+
+            $data_insert = [
+                'user_id'           => $id,
+                'nama_siswa'        => $request->nama_siswa,
+                'nis'               => $request->nis,
+                'alamat'            => $request->alamat,
+                'tempat_lahir'      => $request->tempat_lahir,
+                'tanggal_lahir'     => $request->tanggal_lahir,
+                'tahun_angkatan'    => $request->tahun_angkatan,
+                'status'            => $request->status,
+                'created_at'        => now(),
+            ];
+
+            StudentModel::create($data_insert);
+
+        DB::commit();
+
             $query = StudentModel::where('nama_siswa', 'LIKE', '%' . $request->keyword . '%')
                                 ->paginate(
                                     $perPage = 10, $columns = ['*'], 'page', 1
@@ -46,9 +69,9 @@ class ApiStudentController extends Controller
             $student = StudentResource::collection($query);
 
             return $student;
-        } 
-        else 
-        {
+        
+        } catch (Exception $e) {
+
             return response([
                 "message" => "failed insert data",
                 "status_code" => 500

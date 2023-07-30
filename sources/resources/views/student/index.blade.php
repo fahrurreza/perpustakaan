@@ -45,6 +45,13 @@
               <span v-if="error.nama_siswa" class="help-block">@{{ error.nama_siswa }}</span>
             </div>
           </div>
+          <div class="form-group" v-bind:class="{ 'has-error': hasError.email }">
+            <label for="categoryname" class="col-sm-3 control-label">Email*</label>
+            <div class="col-sm-7">
+              <input v-model="form.email" type="text" name="label" class="form-control" id="form_label">
+              <span v-if="error.email" class="help-block">@{{ error.email }}</span>
+            </div>
+          </div>
           <div class="form-group" v-bind:class="{ 'has-error': hasError.nis }">
             <label for="categoryname" class="col-sm-3 control-label">NIS*</label>
             <div class="col-sm-7">

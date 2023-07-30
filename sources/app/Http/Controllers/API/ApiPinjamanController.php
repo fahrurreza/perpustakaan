@@ -14,24 +14,23 @@ class ApiPinjamanController extends Controller
 {
     public function index(Request $request)
     {
-        $data = StudentModel::with('pinjaman')
-                                ->where($request->column, 'LIKE', '%' . $request->keyword . '%')
+        $data = PinjamanModel::with('student')
                                 ->paginate(
                                     $perPage = $request->perPage, $columns = ['*'], 'page', $request->pageSelect
                                 );
 
-        return StudentResource::collection($data);
+        return PinjamanResource::collection($data);
     }
 
     public function kembalian(Request $request)
     {
-        $data = StudentModel::with('kembalian')
+        $data = PinjamanModel::with('kembalian')
                                 ->where($request->column, 'LIKE', '%' . $request->keyword . '%')
                                 ->paginate(
                                     $perPage = $request->perPage, $columns = ['*'], 'page', $request->pageSelect
                                 );
 
-        return StudentResource::collection($data);
+        return PinjamanResource::collection($data);
     }
 
     public function update(Request $request)
@@ -45,13 +44,12 @@ class ApiPinjamanController extends Controller
 
         if($query)
         {
-            $data = StudentModel::with('pinjaman')
-                                ->where($request->column, 'LIKE', '%' . $request->keyword . '%')
+            $data = PinjamanModel::with('student')
                                 ->paginate(
                                     $perPage = $request->perPage, $columns = ['*'], 'page', $request->pageSelect
                                 );
 
-            return StudentResource::collection($data);
+            return PinjamanResource::collection($data);
         } 
         else 
         {
@@ -68,13 +66,12 @@ class ApiPinjamanController extends Controller
         $result=PinjamanModel::where('id',$request->id)->delete();
         if($request)
         {
-            $data = StudentModel::with('pinjaman')
-                            ->where($request->column, 'LIKE', '%' . $request->keyword . '%')
-                            ->paginate(
-                                $perPage = $request->perPage, $columns = ['*'], 'page', $request->pageSelect
-                            );
+            $data = PinjamanModel::with('student')
+                                ->paginate(
+                                    $perPage = $request->perPage, $columns = ['*'], 'page', $request->pageSelect
+                                );
 
-            return StudentResource::collection($data);
+            return PinjamanResource::collection($data);
         }
         else
         {

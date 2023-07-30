@@ -19,6 +19,7 @@ const App = {
       form:{
         id : null,
         nama_siswa : null,
+        email : null,
         nis : null,
         alamat : null,
         tempat_lahir : null,
@@ -28,6 +29,7 @@ const App = {
       },
       hasError : {
         nama_siswa : false,
+        email : false,
         nis : false,
         alamat : false,
         tempat_lahir : false,
@@ -37,6 +39,7 @@ const App = {
       },
       error: {
         nama_siswa : false,
+        email : false,
         nis : false,
         alamat : false,
         tempat_lahir : false,
@@ -129,6 +132,7 @@ const App = {
     resetForm: function () {
         this.submit = true, 
         this.form.nama_siswa = null,
+        this.form.email = null,
         this.form.nis = null,
         this.form.alamat = null,
         this.form.tempat_lahir = null,

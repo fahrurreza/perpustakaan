@@ -38,6 +38,10 @@ Route::middleware('auth')->group(function() {
     Route::get('/data-siswa', 'StudentController@index')->name('student');
     Route::get('/data-role', 'RoleController@index')->name('role');
     Route::get('/data-user', 'UserController@index')->name('user');
+    Route::get('/data-pinjaman', 'PinjamanController@pinjaman_siswa')->name('data-pinjaman');
+    Route::get('/laporan-pinjaman', 'PinjamanController@laporan_pinjaman')->name('laporan-pinjaman');
+    Route::post('/lihat-laporan', 'PinjamanController@laporan_bulanan')->name('lihat-laporan');
+    Route::get('/cetak-laporan/{periode}', 'PinjamanController@cetak_laporan')->name('cetak-laporan');
 
     //PINJAMAN
     Route::get('/pinjam-buku', 'PinjamanController@index')->name('pinjaman');

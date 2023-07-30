@@ -18,6 +18,7 @@ class PinjamanResource extends JsonResource
             'id' => $this->id,
             'book_id' => $this->book_id,
             'student_id' => $this->student_id,
+            'book_code' =>  $this->book_code,
             'book_name' =>  $this->book->book_name,
             'student_name' =>  $this->student->nama_siswa,
             'jumlah' => $this->jumlah,

@@ -56,7 +56,7 @@
             <div class="form-group" v-bind:class="{ 'has-error': hasError.book_id }">
               <label class="col-sm-3 control-label">Buku*</label>
               <div class="col-sm-7">
-                <select class="form-control js-example-basic-single" multiple="multiple" style="width: 100%;" name="book_id[]">
+                <select class="form-control js-example-basic-single" style="width: 100%;" name="book_id">
                   @foreach($data['book'] as $book)
                   @if($book->stock->stock > 0)
                   <option value="{{$book->id}}">{{$book->book_name}}</option>
@@ -141,7 +141,10 @@
                   </tr>
                   <tr class="bg-info">
                     <td class="text-center"></td>
-                    <td><input type="text" id="nama_siswa" v-on:keyup="this.search('nama_siswa')"></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -150,39 +153,16 @@
                 <tbody>
                   <tr v-for="item, index in items">
                     <td class="text-center" >@{{index + 1}}</td>
-                    <td v-if="item.pinjaman.length > 0">@{{item.nama_siswa}}</td>
-                    <td v-if="item.pinjaman.length > 0">
-                      <ul v-for="pinjam in item.pinjaman">
-                        <li><button class="btn btn-light btn-sm">@{{pinjam.book_number}}</button></li>
-                      </ul>
-                    </td>
-                    <td v-if="item.pinjaman.length > 0">
-                      <ul v-for="pinjam in item.pinjaman">
-                        <li><button class="btn btn-light btn-sm">@{{pinjam.book.book_name}}</button></li>
-                      </ul>
-                    </td>
-                    <td v-if="item.pinjaman.length > 0">
-                      <ul v-for="pinjam in item.pinjaman">
-                        <li><button class="btn btn-light btn-sm">@{{pinjam.batas_dipinjam}}</button></li>
-                      </ul>
-                    </td>
-                    <td v-if="item.pinjaman.length > 0">
-                      <ul v-for="pinjam in item.pinjaman">
-                        <li><button class="btn btn-light btn-sm">@{{pinjam.tanggal_dipinjam}}</button></li>
-                      </ul>
-                    </td>
-                    <td v-if="item.pinjaman.length > 0">
-                      <ul v-for="pinjam in item.pinjaman">
-                        <li><button class="btn btn-light btn-sm">@{{pinjam.tanggal_kembali}}</button></li>
-                      </ul>
-                    </td>
-                    <td class="text-center" v-if="item.pinjaman.length > 0">
-                      <ul v-for="pinjam in item.pinjaman" style="list-style-type:none;">
-                        <li>
-                          <button class="btn btn-warning btn-sm" @click="this.deleteData(pinjam.id)" style="margin-right:10px;">Batal</button>
-                          <button class="btn btn-success btn-sm" @click="this.kembaliData(pinjam.id)">Di Kembalikan</button>
-                        </li>
-                      </ul>
+                    <td>@{{item.student_name}}</td>
+                    <td>@{{item.book_code}}</td>
+                    <td>@{{item.book_name}}</td>
+                    <td>@{{item.tanggal_dipinjam}}</td>
+                    <td>@{{item.batas_dipinjam}}</td>
+                    <td>@{{item.tanggal_kembali}}</td>
+                    <td class="text-center">
+                      <button class="btn btn-warning btn-sm" @click="this.deleteData(item.id)" style="margin-right:10px;" v-if="item.tanggal_kembali == null">Batal</button>
+                      <button class="btn btn-success btn-sm" @click="this.kembaliData(item.id)" v-if="item.tanggal_kembali == null">Di Kembalikan</button>
+                      <button class="btn btn-primary btn-sm"  v-if="item.tanggal_kembali != null">Sudah dikembalikan</button>
                     </td>
                   </tr>
                 </tbody>

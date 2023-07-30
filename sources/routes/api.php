@@ -76,6 +76,8 @@ Route::post('/delete-stock', 'API\ApiStockController@delete');
 
 //PINJAMAN
 Route::post('/get-pinjaman', 'API\ApiPinjamanController@index');
+Route::post('/get-pinjaman-siswa', 'API\ApiPinjamanController@pinjaman_siswa');
+Route::post('/get-books-pinjaman', 'API\ApiPinjamanController@books');
 Route::post('/update-pinjaman', 'API\ApiPinjamanController@update');
 Route::post('/delete-pinjaman', 'API\ApiPinjamanController@delete');
 Route::post('/get-kembalian', 'API\ApiPinjamanController@kembalian');
