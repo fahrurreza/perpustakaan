@@ -107,7 +107,7 @@
               <table id="datatable" class="table table-bordered table-striped">
                 <thead>
                   <tr role="row">
-                    <th class="text-center">Id</th>
+                    <th class="text-center">No</th>
                     <th>Category Name</th>
                     <th>Deskripsi</th>
                     <th>Status</th>
@@ -122,15 +122,14 @@
                     <td></td>
                     <td></td>
                   </tr>
-                  <tr v-for="item in items">
-                    <td class="text-center">@{{item.id}}</td>
+                  <tr v-for="item, index in items">
+                    <td class="text-center">@{{index + 1}}</td>
                     <td>@{{item.category_name}}</td>
                     <td>@{{item.deskripsi}}</td>
                     <td>
                       <span class="badge btn-success" v-if="item.status == 1">Active</span>
                       <span class="badge btn-warning" v-else>Inactive</span>
                     </td>
-                    <td>@{{item.created_at}}</td>
                     <td class="text-center">
                       <div class="btn-group">
                         <button class="btn btn-light btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -146,7 +145,7 @@
                 </tbody>
                 <tfoot>
                   <tr role="row">
-                    <th class="text-center">Id</th>
+                    <th class="text-center">No</th>
                     <th>Category Name</th>
                     <th>Deskripsi</th>
                     <th>Status</th>

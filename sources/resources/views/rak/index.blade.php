@@ -107,7 +107,7 @@
               <table id="datatable" class="table table-bordered table-striped">
                 <thead>
                   <tr role="row">
-                    <th class="text-center">Id</th>
+                    <th class="text-center">No</th>
                     <th>Category Name</th>
                     <th>Deskripsi</th>
                     <th>Status</th>
@@ -122,8 +122,8 @@
                     <td></td>
                     <td></td>
                   </tr>
-                  <tr v-for="item in items">
-                    <td class="text-center">@{{item.id}}</td>
+                  <tr v-for="item, index in items">
+                    <td class="text-center">@{{index + 1}}</td>
                     <td>@{{item.rak_name}}</td>
                     <td>@{{item.deskripsi}}</td>
                     <td>
@@ -145,7 +145,7 @@
                 </tbody>
                 <tfoot>
                   <tr role="row">
-                    <th class="text-center">Id</th>
+                    <th class="text-center">No</th>
                     <th>Category Name</th>
                     <th>Deskripsi</th>
                     <th>Status</th>

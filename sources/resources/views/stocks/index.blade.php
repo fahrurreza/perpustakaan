@@ -39,7 +39,7 @@
               <table id="datatable" class="table table-bordered table-striped">
                 <thead>
                   <tr role="row">
-                    <th class="text-center">Id</th>
+                    <th class="text-center">No</th>
                     <th>Book Name</th>
                     <th class="text-center">Stock</th>
                     <th class="text-center">Action</th>
@@ -52,8 +52,8 @@
                     <td  class="text-center"><input type="text" id="category_name" v-on:keyup="this.search('category_name')"></td>
                     <td></td>
                   </tr>
-                  <tr v-for="item in items">
-                    <td class="text-center">@{{item.id}}</td>
+                  <tr v-for="item, index in items">
+                    <td class="text-center">@{{index + 1}}</td>
                     <td>@{{item.book_name}}</td>
                     <td class="text-center" @click="this.openForm(item.id, item.stock)">
                       <span v-if="update != item.id">@{{item.stock}}</span>
@@ -73,7 +73,7 @@
                 </tbody>
                 <tfoot>
                   <tr role="row">
-                    <th class="text-center">Id</th>
+                    <th class="text-center">No</th>
                     <th>Book Name</th>
                     <th class="text-center">Stock</th>
                     <th class="text-center">Action</th>

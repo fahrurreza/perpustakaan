@@ -152,17 +152,9 @@ const App = {
     getData: function(data){
       axios.post('api/get-pinjaman', data)
          .then(response => {
-            console.log(response.data)
-            if(response.status == 200){
-              this.items = response.data.data
-              this.meta = response.data.meta
-              this.buttonPage = this.pageButton(this.meta.last_page)
-            }else{
-              notifError('Error Data')
-            }
-         })
-         .catch(error => {
-            notifError('Error')
+            this.items = response.data.data
+            this.meta = response.data.meta
+            this.buttonPage = this.pageButton(this.meta.last_page)
          })
     },
 
@@ -193,9 +185,6 @@ const App = {
               }else{
                 notifError('Data gagal kembalikan')
               }
-          })
-          .catch(error => {
-              notifError('Somethink else')
           })
         }
       })

@@ -134,8 +134,8 @@
                     <th>Siswa</th>
                     <th>No Buku</th>
                     <th>Buku</th>
-                    <th>Batas Tanggal</th>
                     <th>Tanggal Pinjam</th>
+                    <th>Batas Tanggal</th>
                     <th>Tanggal Dikembalikan</th>
                     <th class="text-center">Action</th>
                   </tr>
@@ -172,8 +172,8 @@
                     <th>Siswa</th>
                     <th>No Buku</th>
                     <th>Buku</th>
-                    <th>Batas Tanggal</th>
                     <th>Tanggal Pinjam</th>
+                    <th>Batas Tanggal</th>
                     <th>Tanggal Dikembalikan</th>
                     <th class="text-center">Action</th>
                   </tr>

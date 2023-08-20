@@ -24,11 +24,10 @@ class ApiPinjamanController extends Controller
 
     public function kembalian(Request $request)
     {
-        $data = PinjamanModel::with('kembalian')
-                                ->where($request->column, 'LIKE', '%' . $request->keyword . '%')
-                                ->paginate(
-                                    $perPage = $request->perPage, $columns = ['*'], 'page', $request->pageSelect
-                                );
+        $data = PinjamanModel::with('student')
+                ->paginate(
+                    $perPage = $request->perPage, $columns = ['*'], 'page', $request->pageSelect
+                );
 
         return PinjamanResource::collection($data);
     }

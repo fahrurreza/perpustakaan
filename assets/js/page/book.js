@@ -166,16 +166,9 @@ const App = {
     getData: function(data){
       axios.post('api/get-book', data)
          .then(response => {
-            if(response.status == 200){
               this.items = response.data.data
               this.meta = response.data.meta
               this.buttonPage = this.pageButton(this.meta.last_page)
-            }else{
-              notifError('Error')
-            }
-         })
-         .catch(error => {
-            notifError('Error')
          })
     },
 
@@ -241,9 +234,6 @@ const App = {
           notifError('Data not found')
         }
       })
-      .catch(error => {
-          notifError('Somethink else')
-      })
     },
 
     updateData: function(data){
@@ -258,9 +248,6 @@ const App = {
         }else{
           notifError('Data gagal diupdate')
         }
-      })
-      .catch(error => {
-          notifError('Somethink else')
       })
     },
     

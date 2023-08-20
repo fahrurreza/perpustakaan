@@ -124,7 +124,7 @@
             <table id="datatable" class="table table-bordered table-striped">
               <thead>
                 <tr role="row">
-                  <th>ID</th>
+                  <th>No</th>
                   <th>Nama User</th>
                   <th>Username</th>
                   <th>Email</th>
@@ -145,8 +145,8 @@
                   <td></td>
                   <td></td>
                 </tr>
-                <tr v-for="item in items">
-                  <td>@{{item.id}}</td>
+                <tr v-for="item, index in items">
+                  <td>@{{index + 1}}</td>
                   <td>@{{item.nama_lengkap}}</td>
                   <td>@{{item.username}}</td>
                   <td>@{{item.email}}</td>
@@ -171,7 +171,7 @@
               </tbody>
               <tfoot>
                 <tr role="row">
-                  <th>ID</th>
+                  <th>No</th>
                   <th>Nama User</th>
                   <th>Username</th>
                   <th>Email</th>

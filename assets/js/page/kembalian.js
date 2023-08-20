@@ -124,7 +124,6 @@ const App = {
               this.items = response.data.data
               this.meta = response.data.meta
               this.buttonPage = this.pageButton(this.meta.last_page)
-              console.log(this.items)
             }else{
               notifError('Error Data')
             }

@@ -40,37 +40,23 @@
               <table id="datatable" class="table table-bordered table-striped">
                 <thead>
                   <tr role="row" class="bg-gray">
-                    <th class="text-center">Id</th>
+                    <th class="text-center">No</th>
                     <th>Siswa</th>
                     <th>Buku</th>
                     <th>Tanggal Di Kembalikan</th>
-                  </tr>
-                  <tr class="bg-info">
-                    <td class="text-center"></td>
-                    <td><input type="text" id="nama_siswa" v-on:keyup="this.search('nama_siswa')"></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
+                  </tr>]
                 </thead>
                 <tbody>
-                  <tr v-for="item in items">
-                    <td class="text-center" v-if="item.kembalian.length > 0">@{{item.id}}</td>
-                    <td v-if="item.kembalian.length > 0">@{{item.nama_siswa}}</td>
-                    <td v-if="item.kembalian.length > 0">
-                      <ul v-for="pinjam in item.kembalian">
-                        <li><button class="btn btn-light btn-sm">@{{pinjam.book.book_name}}</button></li>
-                      </ul>
-                    </td>
-                    <td v-if="item.kembalian.length > 0">
-                      <ul v-for="pinjam in item.kembalian">
-                        <li><button class="btn btn-light btn-sm">@{{pinjam.tanggal_kembali}}</button></li>
-                      </ul>
-                    </td>
+                  <tr v-for="item, index in items">
+                    <td class="text-center">@{{index + 1}}</td>
+                    <td>@{{item.student_name}}</td>
+                    <td>@{{item.book_name}}</td>
+                    <td>@{{item.tanggal_kembali}}</td>
                   </tr>
                 </tbody>
                 <tfoot>
                   <tr role="row" class="bg-gray">
-                    <th class="text-center">Id</th>
+                    <th class="text-center">No</th>
                     <th>Siswa</th>
                     <th>Buku</th>
                     <th>Tanggal Di Kembalikan</th>
